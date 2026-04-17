@@ -1,7 +1,4 @@
 TARGET_SUPPORTS_64_BIT_APPS := true
-TW_THEME := portrait_hdpi
-DEVICE_SCREEN_WIDTH := 1200
-DEVICE_SCREEN_HEIGHT := 2000
 DEVICE_PATH := device/lenovo/tb351fu
 
 # Architecture
@@ -31,14 +28,14 @@ BOARD_RAMDISK_OFFSET := 0x26f00000
 BOARD_TAGS_OFFSET := 0x07c80000
 BOARD_KERNEL_TAGS_OFFSET := 0x07c80000
 BOARD_DTB_OFFSET := 0x07c80000
-BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,64N2 bootconfig
+BOARD_KERNEL_CMDLINE := bootopt=64S3,32N2,64N2 bootconfig androidboot.force_normal_boot=0
 TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
 BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 BOARD_PREBUILT_DTBIMAGE_DIR := $(DEVICE_PATH)/prebuilt
 BOARD_PREBUILT_DTBIMAGE := $(DEVICE_PATH)/prebuilt/dtb.dtb
 
 # Bootconfig
-BOARD_BOOTCONFIG := kernel.rcu_nocbs=all kernel.rcutree.enable_rcu_lazy=1 kernel.rcupdate.rcu_cpu_stall_cputime=1 androidboot.force_normal_boot=0
+BOARD_BOOTCONFIG := androidboot.force_normal_boot=0 kernel.rcu_nocbs=all kernel.rcutree.enable_rcu_lazy=1 kernel.rcupdate.rcu_cpu_stall_cputime=1
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 262144
@@ -52,6 +49,16 @@ BOARD_USES_VENDOR_BOOTIMAGE := true
 BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
 BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
 BOARD_EXCLUDE_KERNEL_FROM_RECOVERY_IMAGE := true
+BOARD_RAMDISK_USE_LZ4 := true
+
+# Verification & Metadata
+BOARD_AVB_ENABLE := true
+BOARD_AVB_ROLLBACK_INDEX := 1649116800
+BOARD_AVB_VENDOR_BOOT_KEY_PATH := external/avb/test/data/testkey_rsa4096.pem
+BOARD_AVB_VENDOR_BOOT_ALGORITHM := SHA256_RSA4096
+BOARD_AVB_VENDOR_BOOT_ROLLBACK_INDEX := 1649116800
+BOARD_AVB_VENDOR_BOOT_ROLLBACK_INDEX_LOCATION := 1
+BOARD_AVB_VENDOR_BOOT_ADD_HASH_FOOTER_ARGS := --rollback_index 1649116800
 
 # Custom Fingerprint and Bootconfig to bypass "Force Normal Boot"
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
@@ -60,7 +67,7 @@ BOARD_MKBOOTIMG_ARGS += --kernel_offset 0x00000000
 BOARD_MKBOOTIMG_ARGS += --ramdisk_offset 0x26f00000
 BOARD_MKBOOTIMG_ARGS += --tags_offset 0x07c80000
 BOARD_MKBOOTIMG_ARGS += --dtb_offset 0x07c80000
-BOARD_MKBOOTIMG_ARGS += --vendor_cmdline "bootopt=64S3,32N2,64N2 bootconfig androidboot.force_normal_boot=0"
+BOARD_MKBOOTIMG_ARGS += --vendor_cmdline "bootopt=64S3,32N2,64N2 bootconfig"
 
 # File systems
 BOARD_HAS_LARGE_FILESYSTEM := true
@@ -68,19 +75,25 @@ BOARD_SYSTEMIMAGE_PARTITION_TYPE := erofs
 BOARD_USERDATAIMAGE_FILE_SYSTEM_TYPE := f2fs
 TARGET_USERIMAGES_USE_F2FS := true
 
-# TWRP UI Configuration
+# TWRP UI Configuration (MINIMAL)
+TW_THEME := portrait_mdpi
+DEVICE_SCREEN_WIDTH := 1200
+DEVICE_SCREEN_HEIGHT := 2000
 RECOVERY_SDCARD_ON_DATA := true
-TW_INCLUDE_CRYPTO := true
-TW_INCLUDE_CRYPTO_FBE := true
-TW_INCLUDE_FBE_METADATA_DECRYPT := true
+TW_INCLUDE_CRYPTO := false
+TW_INCLUDE_CRYPTO_FBE := false
 TW_PREPARE_DATA_MEDIA := true
 BOARD_USES_METADATA_PARTITION := true
 TW_EXTRA_RECOVERY_FSTAB := $(DEVICE_PATH)/recovery.fstab
 TW_INCLUDE_NTFS_3G := true
 TW_USE_TOOLBOX := true
 TW_LOAD_VENDOR_MODULES := true
+TW_LOAD_VENDOR_BOOT_MODULES := true
 TW_BRIGHTNESS_PATH := "/sys/class/leds/lcd-backlight/brightness"
 TW_MAX_BRIGHTNESS := 2047
+TW_SCREEN_BLANK_ON_BOOT := true
+TW_FORCE_USE_BUSYBOX := true
 
-# Fastboot Compatibility
-BOARD_RAMDISK_USE_LZ4 := true
+# Graphics and Modules
+TARGET_RECOVERY_DEVICE_MODULES += libion
+TW_RECOVERY_ADD_REBOOT_RECOVERY_WIPE := true
