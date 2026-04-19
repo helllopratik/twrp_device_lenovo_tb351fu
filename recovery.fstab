@@ -1,6 +1,6 @@
 #
 # recovery.fstab - Lenovo Tab Plus (TB351FU)
-# Android 14 / OrangeFox 14.1
+# Android 16 / OrangeFox 14.1 - RECOVERY CALIBRATION
 #
 
 # mount point    fstype    device                               flags
@@ -10,6 +10,7 @@
 /system_ext      erofs     system_ext                           flags=display="System Ext";backup=1;logical;slotselect
 /vendor_dlkm     erofs     vendor_dlkm                          flags=display="Vendor DLKM";backup=1;logical;slotselect
 /odm_dlkm        erofs     odm_dlkm                             flags=display="ODM DLKM";backup=1;logical;slotselect
+/system_dlkm     erofs     system_dlkm                          flags=display="System DLKM";backup=1;logical;slotselect
 
 /data            f2fs      /dev/block/by-name/userdata          flags=display="Data";fileencryption=aes-256-xts:aes-256-cts:v2+inlinecrypt_optimized,keydirectory=/metadata/vold/metadata_encryption,fsverity
 /metadata        ext4      /dev/block/by-name/metadata          flags=display="Metadata";backup=1
