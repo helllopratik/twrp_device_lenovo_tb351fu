@@ -17,6 +17,13 @@ AB_OTA_PARTITIONS := \
     vendor \
     vendor_boot
 
+# Force Recovery Binary & UI
+PRODUCT_PACKAGES += \
+    recovery \
+    librecovery_ui_default \
+    librecovery_utils \
+    otacerts
+
 # Enable EROFS support (Required for ZUI 17)
 PRODUCT_FS_COMPRESSION := true
-TARGET_RECOVERY_FSTYPE_MOUNT_LIST := erofs
+TARGET_RECOVERY_FSTYPE_MOUNT_LIST := erofs,f2fs,ext4

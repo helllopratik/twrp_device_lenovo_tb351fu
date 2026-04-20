@@ -21,7 +21,7 @@ TARGET_2ND_CPU_VARIANT := generic
 TARGET_2ND_CPU_VARIANT_RUNTIME := cortex-a55
 
 # Platform
-TARGET_BOARD_PLATFORM := mt6789
+TARGET_BOARD_PLATFORM := mt8781
 TARGET_BOOTLOADER_BOARD_NAME := t808aa
 BOARD_HAS_MTK_HARDWARE := true
 BOARD_USES_MTK_COMMON := true
@@ -33,6 +33,7 @@ BOARD_VNDK_VERSION := current
 # Boot Header
 BOARD_BOOT_HEADER_VERSION := 4
 BOARD_INIT_BOOT_HEADER_VERSION := 4
+BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 BOARD_KERNEL_PAGESIZE := 4096
 
 # Kernel Offsets & Name
@@ -51,7 +52,7 @@ BOARD_PREBUILT_DTBIMAGE_DIR := $(DEVICE_PATH)/prebuilt
 BOARD_PREBUILT_DTBIMAGE := $(DEVICE_PATH)/prebuilt/dtb.dtb
 
 # Bootconfig
-BOARD_BOOTCONFIG := androidboot.force_normal_boot=0 kernel.rcu_nocbs=all kernel.rcutree.enable_rcu_lazy=1 kernel.rcupdate.rcu_cpu_stall_cputime=1 androidboot.selinux=permissive
+BOARD_BOOTCONFIG := kernel.rcu_nocbs=all kernel.rcutree.enable_rcu_lazy=1 kernel.rcupdate.rcu_cpu_stall_cputime=1 androidboot.selinux=permissive
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 262144
@@ -80,6 +81,7 @@ TARGET_SCREEN_WIDTH := 1200
 TARGET_SCREEN_HEIGHT := 2000
 
 # OrangeFox / TWRP Specifics
+FOX_AIK := $(shell pwd)/device/lenovo/tb351fu/FOX_AIK
 TW_EXCLUDE_DEFAULT_USB_INIT := true
 TW_EXTRA_LANGUAGES := true
 TW_INCLUDE_NTFS_3G := true
@@ -87,6 +89,16 @@ TW_USE_TOOLBOX := true
 TW_INCLUDE_RESETPROP := true
 TW_INCLUDE_REPACKTOOLS := true
 TW_HAS_MTP := true
+
+# Crypto & Decryption (Android 16 / FBE v2)
+TW_INCLUDE_CRYPTO := true
+TW_INCLUDE_CRYPTO_FBE := true
+TW_INCLUDE_FBE_METADATA_DECRYPT := true
+TW_USE_FSCRYPT_POLICY := 2
+BOARD_USES_METADATA_PARTITION := true
+
+# Module Loading
+TW_LOAD_VENDOR_BOOT_MODULES := true
 
 # Fixes
 BUILD_BROKEN_DUP_RULES := true
